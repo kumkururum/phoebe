@@ -1,0 +1,23 @@
+{
+  "name": "express-phoebe",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "devstart": "nodemon ./bin/www",
+    "serverstart": "SET DEBUG=express-phoebe:* & npm run devstart"
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "debug": "^4.4.1",
+    "express": "^5.1.0",
+    "http-errors": "~2.0.0",
+    "morgan": "^1.10.0",
+    "pug": "3.0.3",
+    "serve-favicon": "^2.5.1",
+    "ws": "^8.21.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
