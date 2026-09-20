@@ -41,6 +41,9 @@ build/Release
 node_modules/
 jspm_packages/
 
+# Images directory
+public/images/
+
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
 
@@ -141,3 +144,7 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+#database
+*.sqlite3
+*.db
