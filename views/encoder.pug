@@ -5,4 +5,6 @@ block content
   label(for="plaintext") String to encode: 
   input(type="text" id="plaintext")
 
-  p=encodedText
+  div(id="preview")
+
+  script(src="/javascripts/encoder-socket.js" defer)
