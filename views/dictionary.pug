@@ -1,0 +1,18 @@
+extends layout 
+block content
+    form(method='POST')
+        div.form-group
+            label(for="new_glyph") Upload new glyph of primary script:
+            input#new_glyph.form-control(type="file" accept="image/png, image/jpeg" name="new_glyph")
+            label(for="alt_glyph") Upload its secondary script equivalent:
+            input#alt_glyph.form-control(type="file" accept="image/png, image/jpeg" name="alt_glyph")
+            label(for="char_code") Character code: 
+            input#char_code.form-control(type="text" name="char_code" required)
+            label(for="meaning") Meaning (optional):
+            input#meaning.form-control(type="text" name="meaning")
+
+        button.btn.btn-primary(type='submit') Submit
+
+        div 
+            each entry in text 
+                ul ID: #{entry.glyph_id} #{entry.image_link} CODE: #{entry.char_code} MEANING: #{entry.meaning}
