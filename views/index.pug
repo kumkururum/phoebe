@@ -1,8 +1,13 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  p Welcome to Phoebe. A webside for uploading your scripts and using them as you would a font.
 
-  label(for="plaintext") String to encode: 
-  input(type="text" id="plaintext")
+  p #{nglyphs}
+    if nglyphs=1
+      word=" glyph has"
+    else 
+      word=" glyphs have"
+
+    span #{word} been added so far.
+    
