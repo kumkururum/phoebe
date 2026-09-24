@@ -7,13 +7,13 @@ const { countGlyphs } = require("../models/queries.mjs");
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
-  const tally = countGlyphs.get()[`COUNT (glyph_id)`]//SOMEBODY NEEDS TO FIX THIS AWFUL IMPLEMENTATION, LIKELY ME
-  console.log(tally)
-  res.render("index", { title: "Phoebe", nglyphs: tally });
+  const tally = countGlyphs.get()[`COUNT (glyph_id)`]; //SOMEBODY NEEDS TO FIX THIS AWFUL IMPLEMENTATION, LIKELY ME
+  console.log(tally);
+  res.render("index", { nglyphs: tally });
 });
 
 /* GET Encoder page */
-router.get("/phoebe", encoder_controller.encoder_get);
+router.get("/encoder", encoder_controller.encoder_get);
 
 /* GET Dictionary page */
 router.get("/dictionary", dictionary_controller.dictionary_get);

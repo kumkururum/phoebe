@@ -5,6 +5,21 @@ block content
   label(for="plaintext") String to encode: 
   input(type="text" id="plaintext")
 
+  
+  //--
+    const plaintext = document.querySelector(#plaintext)
+    console.log(plaintext)
+    const parsedText = [1, 2, "c"]
+  -//
+
   div(id="preview")
+    p This is preview
+    each code in [1, 2, "c"]
+      ul #{code} 
+
+  div(id="encoded")
+
+  div(id="socket")
 
   script(src="/javascripts/encoder-socket.js" defer)
+  //-script(src="/javascripts/parser.js" defer)
