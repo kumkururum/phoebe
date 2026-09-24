@@ -27,7 +27,7 @@ exports.dictionary_post = [
     //const glyph_id = 1; ////PLACEHOLDER
     const meaning = req.body.meaning;
     const image_link = "placeholder"; ////PLACEHOLDER
-    if (errors.isEmpty()) {
+    if (errors.isEmpty()) { ///NEED TO IMPLEMENT ERROR RESPONSE PAGE
       const newGlyph = registerGlyph.get(
         //glyph_id,
         char_code,
