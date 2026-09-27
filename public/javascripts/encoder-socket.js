@@ -3,6 +3,9 @@ let websocket = null;
 let pingInterval;
 let counter = 0;
 
+//import { getGlyphAll, getGlyphIndex } from "../../models/queries.mjs";
+//const { getGlyphAll, getGlyphIndex } = require("../models/queries.mjs");
+
 const logElement = document.querySelector("#socket");
 function log(text) {
   logElement.innerText = `${text}\n`;
@@ -14,8 +17,10 @@ const plaintext = document.querySelector("#plaintext"); ///BTW!!! Do I need to e
 const encodedText = document.querySelector("#encoded");
 function encode() {
   parse(plaintext.value);
-  encodedText.textContent = parsedText;
-  encodedText.scrollTop = encodedText.scrollHeight;
+  encodedText.replaceChildren()//otherwise each keystroke creates a copy of existing children
+  /*encodedText.textContent = parsedText;
+  encodedText.scrollTop = encodedText.scrollHeight;*/
+  inscribe(parsedText);
 }
 plaintext.addEventListener("input", encode);
 
@@ -26,13 +31,17 @@ plaintext.addEventListener("input", encode);
 a -> should return ['a'] GOT IT
 aa -> should return ['aa'] GOT IT
 aabraca -> should return ['aa', 'a', 'a'] GOT IT
-aabracadabra -> should return ['a', 'abracadabra'] 
+aabracadabra -> should return ['a', 'abracadabra'] <-- temporarily solved by using the space button
 */
 
-let dictionary = ["a", "aa", "aaa", "ab", "abc", "abracadabra"]; //should probably add a restriction that i minus j can't be more than the longest word in the dictionary
+let dictionaryIndex = JSON.parse(document.querySelector("#data").dataset.index); //only contains char_codes
+let dictionary = JSON.parse(document.querySelector("#data").dataset.dictionary); //contains full entries
 
 let parsedText = [];
-let longestWord = 11; //this shall be passed from dictionary
+let longestWord = dictionaryIndex.reduce((longest, current) => {
+  return current.length > longest.length ? current : longest;
+}, "").length;
+
 function parse(string) {
   //let string;
   parsedText = [];
@@ -46,7 +55,7 @@ function parse(string) {
       let fragment = string.slice(j, i + 1);
       //parsedText.push(fragment);
 
-      if (dictionary.includes(fragment)) {
+      if (dictionaryIndex.includes(fragment)) {
         parsedText[j] = fragment;
       } else {
         console.log("no match for you");
@@ -55,7 +64,7 @@ function parse(string) {
       i++;
     }
     if (parsedText[j]) {
-      j++; //j = parsedText[j].length + j;
+      j = parsedText[j].length + j;
     } else {
       j++;
     }
@@ -67,6 +76,23 @@ function parse(string) {
 
 //lexing "abracadabra" as above only gives 255 no match messages
 //reduced to 204 in the second iteration
+
+//function for
+function inscribe(array) {
+  const target = document.querySelector("#encoded");
+  array.forEach((element) => {
+    const link = dictionary.find(
+      (item) => item.char_code === element,
+    ).image_link;
+    console.log(link);
+    const image = document.createElement("img");
+    image.src = link;
+    //image.alt = item.char_code;
+    target.appendChild(image);
+  });
+}
+
+//here be websockets
 
 function initializeWebSocketListeners(ws) {
   ws.addEventListener("open", () => {

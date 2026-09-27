@@ -1,14 +1,43 @@
 const { body, validationResult } = require("express-validator");
+const path = require("path"); //needed for naming with multer
 
-const { registerGlyph, getGlyphByCode, getGlyphAll } = require("../models/queries.mjs");
+//Multer setup
+const multer = require("multer");
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "user_files/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+
+const fileFilter = function (req, file, cb) {
+  if (file.mimetype == "image/png" || file.mimetype == "image/jpeg") {
+    cb(null, true);
+  } else {
+    req.errorMessage = "Only .png and .jpeg files are accepted.";
+    cb(null, false);
+  }
+};
+
+const upload = multer({ storage, fileFilter });
+
+//Database queries import
+const {
+  registerGlyph,
+  getGlyphByCode,
+  getGlyphAll,
+} = require("../models/queries.mjs");
 
 /*dictionary GET request*/
-exports.dictionary_get = async (req, res, next) => {
-  const oldGlyph = getGlyphByCode.get("aaa");
+exports.dictionary_get = (req, res, next) => {
+  //const oldGlyph = getGlyphByCode.get("aaa");
   const allGlyph = getGlyphAll.all();
-  console.log(allGlyph)
+  console.log(allGlyph);
   let message;
-  if (!oldGlyph) {
+  if (allGlyph.length === 0) {
     message = "...nobody here but us chickens...";
   } else {
     message = allGlyph;
@@ -16,26 +45,36 @@ exports.dictionary_get = async (req, res, next) => {
 
   res.render("dictionary", { text: message });
 };
+//this needs to be incorporated into real validations
+const validateGlyphUpload = (req, res, next) => {
+  const { error } = validateGlyph(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+  return next;
+};
 
 /*dictionary POST request*/
 exports.dictionary_post = [
+  upload.single("new_glyph"),
   body("char_code").trim().isLength({ min: 1 }).escape(),
   body("meaning").trim().escape(),
-  async (req, res, next) => {
+  (req, res, next) => {
     const errors = validationResult(req);
     const char_code = req.body.char_code;
-    //const glyph_id = 1; ////PLACEHOLDER
     const meaning = req.body.meaning;
-    const image_link = "placeholder"; ////PLACEHOLDER
-    if (errors.isEmpty()) { ///NEED TO IMPLEMENT ERROR RESPONSE PAGE
-      const newGlyph = registerGlyph.get(
-        //glyph_id,
-        char_code,
-        image_link,
-        meaning,
-      );
+    console.log(req.file);
+    if (!errors.isEmpty()) {
+      return res.render("dictionary", { errors: errors.array() }); //very rudimentary, need better error handling ALSO include Multer specific error
+    } else {
+      if (!req.file) {
+        return res.render("dictionary", {
+          errors: [{ msg: "No file detected" }],
+        });
+      }
+      const image_link = `/user_files/${req.file.filename}`;
+      const newGlyph = registerGlyph.get(char_code, image_link, meaning);
     }
-    res.redirect("dictionary");
+
+    return res.redirect("dictionary");
   },
 ];
 /*
