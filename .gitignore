@@ -44,6 +44,9 @@ jspm_packages/
 # Images directory
 public/images/
 
+# Actual image directory
+user_files/
+
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
 

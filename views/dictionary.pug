@@ -1,6 +1,6 @@
 extends layout 
 block content
-    form(method='POST')
+    form(action='/dictionary' enctype='multipart/form-data' method='POST')
         div.form-group
             label(for="new_glyph") Upload new glyph of primary script:
             input#new_glyph.form-control(type="file" accept="image/png, image/jpeg" name="new_glyph")
@@ -12,7 +12,18 @@ block content
             input#meaning.form-control(type="text" name="meaning")
 
         button.btn.btn-primary(type='submit') Submit
+    
+        div 
+            if Array.isArray(text)
+                each entry in text
+                    p 
+                        img(src=entry.image_link) 
+                        span ID: #{entry.glyph_id} CODE: #{entry.char_code} MEANING: #{entry.meaning}
+            else 
+                p #{text}
 
         div 
-            each entry in text 
-                ul ID: #{entry.glyph_id} #{entry.image_link} CODE: #{entry.char_code} MEANING: #{entry.meaning}
+            if errors
+                ul
+                    for error in errors
+                        li!= error.msg

@@ -12,12 +12,22 @@ const getGlyphByCode = database.prepare(`
 
 const getGlyphAll = database.prepare(`
     SELECT * FROM glyphs
+    `);
 
-    `)
+const getGlyphIndex = database.prepare(`
+    SELECT char_code
+    FROM glyphs
+    `);
 
 const countGlyphs = database.prepare(`
     SELECT COUNT (glyph_id)
     FROM glyphs
     `);
 
-export { registerGlyph, getGlyphByCode, countGlyphs, getGlyphAll };
+export {
+  registerGlyph,
+  getGlyphByCode,
+  countGlyphs,
+  getGlyphAll,
+  getGlyphIndex,
+};

@@ -3,13 +3,14 @@ const router = express.Router();
 
 const encoder_controller = require("../controllers/encoderController");
 const dictionary_controller = require("../controllers/dictionaryController");
-const { countGlyphs } = require("../models/queries.mjs");
+const { countGlyphs, getGlyphByCode } = require("../models/queries.mjs");
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
   const tally = countGlyphs.get()[`COUNT (glyph_id)`]; //SOMEBODY NEEDS TO FIX THIS AWFUL IMPLEMENTATION, LIKELY ME
+  const glyph = getGlyphByCode.get("tori")
   console.log(tally);
-  res.render("index", { nglyphs: tally });
+  res.render("index", { nglyphs: tally, glyph: glyph });
 });
 
 /* GET Encoder page */

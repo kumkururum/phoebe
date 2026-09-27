@@ -18,7 +18,12 @@ ul {
 p {
   margin: 10px;
 }
-
+/*
+img {
+  min-height: 100px;
+  min-width: 100px;
+}
+*/
 .title {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-weight: 500;

@@ -5,19 +5,15 @@ block content
   label(for="plaintext") String to encode: 
   input(type="text" id="plaintext")
 
-  
-  //--
-    const plaintext = document.querySelector(#plaintext)
-    console.log(plaintext)
-    const parsedText = [1, 2, "c"]
-  -//
+  meta(id="data" data-index=script data-dictionary=dictionary)
 
-  div(id="preview")
-    p This is preview
-    each code in [1, 2, "c"]
-      ul #{code} 
+  //-div(id="output")
+
+    each code in script
+      span #{code}-// 
 
   div(id="encoded")
+
 
   div(id="socket")
 

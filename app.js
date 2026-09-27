@@ -1,5 +1,7 @@
 const createError = require("http-errors");
 const express = require("express");
+const multer = require("multer")
+const upload = multer({dest: 'user_files/'})
 
 const path = require("path");
 const favicon = require("serve-favicon");
@@ -23,6 +25,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+app.use('/user_files', express.static(path.join(__dirname, "user_files")))
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
