@@ -12,13 +12,16 @@ block content
             input#meaning.form-control(type="text" name="meaning")
 
         button.btn.btn-primary(type='submit') Submit
-    
+
         div 
             if Array.isArray(text)
                 each entry in text
                     p 
                         img(src=entry.image_link) 
-                        span ID: #{entry.glyph_id} CODE: #{entry.char_code} MEANING: #{entry.meaning}
+                        span CODE: #{entry.char_code} MEANING: #{entry.meaning}
+                        a(href='glyph/'+entry.glyph_id+'/edit') Edit 
+                        a(href='glyph/'+entry.glyph_id+'/delete') Delete
+
             else 
                 p #{text}
 
