@@ -1,0 +1,20 @@
+extends layout 
+block content
+
+    img(src=glyph.image_link)
+    form(enctype='multipart/form-data' method='POST')
+        div.form-group
+            input#image_link.form-control(type="hidden" name="image_link" value=glyph.image_link readonly)
+            label(for="new_glyph") Upload new glyph of primary script:
+            input#new_glyph.form-control(type="file" accept="image/png, image/jpeg" name="new_glyph")
+            label(for="alt_glyph") Upload its secondary script equivalent:
+            input#alt_glyph.form-control(type="file" accept="image/png, image/jpeg" name="alt_glyph")
+            label(for="char_code") Character code: 
+            input#char_code.form-control(type="text" name="char_code" value=glyph.char_code required)
+            label(for="meaning") Meaning (optional):
+            input#meaning.form-control(type="text" name="meaning" value=glyph.meaning)
+
+        button.btn.btn-primary(type='submit') Submit
+
+    p 
+        a(href='/dictionary') Back

@@ -11,6 +11,11 @@ a {
   color: #00b7ff;
 }
 
+a:focus,
+a:hover {
+  color: #FF0000;
+}
+
 ul {
   list-style-type: none;
 }

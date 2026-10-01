@@ -1,0 +1,23 @@
+extends layout 
+block content
+
+    img(src=glyph.image_link)
+    ul ID: #{glyph.glyph_id} 
+    ul CODE: #{glyph.char_code}
+    ul MEANING: #{glyph.meaning}
+
+    p Are you sure you want to permanently delete this glyph?
+    p 
+        a(href='/dictionary') Back
+    form(method='POST')
+        div.form-group
+            input#glyph_id.form-control(type='hidden' name='glyph_id', value=glyph.glyph_id )
+            input#image_link.form-control(type='hidden' name='image_link', value=glyph.image_link )
+            button.btn.btn-primary(type='submit') Delete
+
+
+    div 
+        if errors
+            ul
+                for error in errors
+                    li!= error.msg

@@ -10,6 +10,10 @@ const getGlyphByCode = database.prepare(`
     SELECT * FROM glyphs WHERE char_code = ?
     `);
 
+const getGlyphById = database.prepare(`
+    SELECT * FROM glyphs WHERE glyph_id = ?
+    `);
+
 const getGlyphAll = database.prepare(`
     SELECT * FROM glyphs
     `);
@@ -24,10 +28,24 @@ const countGlyphs = database.prepare(`
     FROM glyphs
     `);
 
+const deleteGlyph = database.prepare(`
+    DELETE FROM glyphs WHERE glyph_id = ?
+    `);
+
+const updateGlyph = database.prepare(`
+    UPDATE glyphs
+    SET char_code = ?, image_link = ?, meaning = ?
+    WHERE glyph_id = ?
+    RETURNING glyph_id, char_code, image_link, meaning
+    `);
+
 export {
   registerGlyph,
   getGlyphByCode,
+  getGlyphById,
   countGlyphs,
   getGlyphAll,
   getGlyphIndex,
+  deleteGlyph,
+  updateGlyph,
 };
